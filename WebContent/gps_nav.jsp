@@ -162,7 +162,7 @@
  	<!-- End -->
  	<!-- Page Header Starts -->
  	<header>
- 		<div class="hero-unit">
+ 		<div class="header">
     		<div class="container-fluid">
         		<h1>SAGNAS</h1>
         	</div>

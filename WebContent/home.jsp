@@ -40,7 +40,8 @@ if (session.isNew() && session.getAttribute("userid") != null) {
 		</div>
 		<div class="container-fluid">
 			<div class="row-fluid">
-				<span class="text-right">Welcome <%=session.getAttribute("userid") %></span>
+				<p class="text-left"><a href="logout.jsp">Logout</a></p>
+				<p class="text-right">Welcome <%=session.getAttribute("userid") %></p>
 			</div>
 		</div>
  	</header>

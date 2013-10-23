@@ -28,7 +28,7 @@
 	    //ResultSet rs;
 	    int i = st.executeUpdate("insert into user_list(first_name, last_name, email, uname, pass, user_type, regdate) values ('" + fname + "','" + lname + "','" + email + "','" + user + "','" + pwd + "','cop', CURDATE())");
 	    if (i > 0) {
-	        //session.setAttribute("userid", user);
+	        session.setAttribute("userid", user);
 	 		response.sendRedirect("home.jsp");
 	    } else {
 	        response.sendRedirect("index.jsp");

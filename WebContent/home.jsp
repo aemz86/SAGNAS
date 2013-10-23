@@ -2,6 +2,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.Vector" %>
+
+<%
+if (session.isNew() && session.getAttribute("userid") != null) {
+	response.sendRedirect("index.jsp");
+}          
+%>
+
 <!DOCTYPE html>
  <html>
  <head>
@@ -16,6 +23,10 @@
  			width: 100%;
  			bottom: 0px;
  		}
+ 		.header {
+			height: 10%;
+			width: 100%;
+		}
  	</style>
  </head>
  
@@ -29,7 +40,7 @@
 		</div>
 		<div class="container-fluid">
 			<div class="row-fluid">
-				<span class="text-right">Welcome user</span>
+				<span class="text-right">Welcome <%=session.getAttribute("userid") %></span>
 			</div>
 		</div>
  	</header>

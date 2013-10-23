@@ -3,20 +3,51 @@
 
 <%@ page import ="java.sql.*" %>
 <%
-    String userid = request.getParameter("uname");    
-    String pwd = request.getParameter("pass");
-    Class.forName("com.mysql.jdbc.Driver");
-    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mcc",
-            "root", "root");
-    Statement st = con.createStatement();
-    ResultSet rs;
-    rs = st.executeQuery("select * from user_list where uname='" + userid + "' and pass='" + pwd + "'");
-    if (rs.next()) {
-        session.setAttribute("userid", userid);
-        //out.println("welcome " + userid);
-        //out.println("<a href='logout.jsp'>Log out</a>");
-        response.sendRedirect("success.jsp");
-    } else {
-        out.println("Invalid password <a href='index.jsp'>try again</a>");
-    }
+	String username = request.getParameter("username");
+	String password = request.getParameter("password");
+	String usertype = request.getParameter("usertype");
+	
+	java.sql.Connection con;
+    java.sql.Statement s;
+    java.sql.ResultSet rs;
+
+    con = null;
+    s = null;
+    rs = null;
+
+	try{
+	    Class.forName("com.mysql.jdbc.Driver");
+	    con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mcc_sagnas",
+	            "root", "root");
+	    String sql = "select * from user_list where uname='" + username + "'";
+
+            s = con.createStatement();
+            rs = s.executeQuery(sql);
+            rs.next();
+            //out.println(username+" -- "+ password +" -- "+ rs.getString("password"));
+            if (password.equals(rs.getString("pass")) ) {
+                session.setAttribute("userid", username);
+                response.sendRedirect("home.jsp");
+            } else {
+                out.println("Login failed");
+                session.invalidate();
+            }
+
+        } catch (Exception e) {
+            out.println("<script> window.alert('Login Failed. . Try again')</script>");
+            response.sendRedirect("index.jsp");
+             
+            
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (s != null) {
+                s.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
 %>

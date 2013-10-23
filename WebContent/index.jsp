@@ -2,6 +2,17 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.Vector"%>
+<%@ page language="java" session="true" %>
+<%@ page import="java.sql.*" %> 
+<%@ page import="java.io.*" %> 
+
+<%
+if (session.getAttribute("userid") != null) {
+	response.sendRedirect("home.jsp");
+} else {
+	
+}            
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -106,22 +117,23 @@ footer {
 				Login
 			</h3>
 		</div>
+		<form id="<%=current_user %>_login" name="<%=current_user %>_login" action="login.jsp" method="post">
+				
 		<div class="modal-body">
 			<div class="row-fluid">
-				<form id="cop_login" name="cop_login">
 					<div class="span6">
 						<h4>Username</h4>
 						<p>
-							<input type="text" class="span12">
+							<input type="text" class="span12" name="username">
 						</p>
 					</div>
 					<div class="span6">
 						<h4>Password</h4>
 						<p>
-							<input type="text" class="span12">
+							<input type="password" class="span12" name="password">
 						</p>
 						<p>
-							<input type="hidden" class="span12" value="<%=current_user %>">
+							<input type="hidden" class="span12" value="<%=current_user %>" name="usertype">
 						</p>
 					</div>
 					<div class="span6">
@@ -129,14 +141,15 @@ footer {
 						<a href="#register" class="text-center" data-toggle="modal"
 							data-dismiss="modal">Click here to Register</a>
 					</div>
-				</form>
+				
 			</div>
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-primary">Reset</button>
-			<button type="button" id="submit_<%=current_user %>"
+			<button type="submit"
 				class="btn btn-primary">Login</button>
 		</div>
+		</form>
 	</div>
 	<% } %>
 
@@ -188,20 +201,21 @@ footer {
 		$(function() {
 			//twitter bootstrap script
 			$("button#submit_cop").click(function() {
-				$.ajax({
-					type : "POST",
-					url : "login.jsp",
-					data : $('form.cop_auth').serialize(),
-					success : function(msg) {
-						alert("works");
-					},
-					error : function() {
-						alert("failure");
-					}
-				});
+			//	$.ajax({
+			//		type : "POST",
+			//		url : "login.jsp",
+			//		data : $('form#cop_auth').serialize(),
+			//		success : function(msg) {
+			//			alert("works");
+			//		},
+			//		error : function() {
+			//			alert("failure");
+			//		}
+			//	});
+				$('form#cop_auth').submit();
 			});
 			$("button#submit_user").click(function() {
-				$.ajax({
+			/*	$.ajax({
 					type : "POST",
 					url : "login.jsp",
 					data : $('form.user_auth').serialize(),
@@ -212,19 +226,21 @@ footer {
 						alert("failure");
 					}
 				});
+			*/$('form#user_auth').submit();
 			});
 			$("button#submit_admin").click(function() {
-				$.ajax({
-					type : "POST",
-					url : "login.jsp",
-					data : $('form.admin_auth').serialize(),
-					success : function(msg) {
-						alert("works");
-					},
-					error : function() {
-						alert("failure");
-					}
-				});
+			//	$.ajax({
+			//		type : "POST",
+			//		url : "login.jsp",
+			//		data : $('form.admin_auth').serialize(),
+			//		success : function(msg) {
+			//			alert("works");
+			//		},
+			//		error : function() {
+			//			alert("failure");
+			//		}
+			//	});
+				$('form#admin_auth').submit();
 			});
 
 			$("button#submit_registration").click(function() {
@@ -240,7 +256,7 @@ footer {
 				//       }
 				//   });
 
-				$('form#form_reg').submit();
+//				$('form#form_reg').submit();
 			});
 
 		});

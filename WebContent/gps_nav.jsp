@@ -2,6 +2,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.Vector" %>
+
+<%
+	if (session.isNew() && session.getAttribute("userid") != null) {
+		response.sendRedirect("index.jsp");
+	}          
+%>
+
 <!DOCTYPE html>
  <html>
  <head>
@@ -16,6 +23,10 @@
  			width: 100%;
  			bottom: 0px;
  		}
+ 		.header {
+			height: 10%;
+			width: 100%;
+		}
  	</style>
  
  	<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
@@ -158,7 +169,8 @@
 		</div>
 		<div class="container-fluid">
 			<div class="row-fluid">
-				<span class="text-right">Welcome user</span>
+				<p class="text-left"><a href="logout.jsp">Logout</a></p>
+				<p class="text-right">Welcome <%=session.getAttribute("userid") %></p>
 			</div>
 		</div>
  	</header>

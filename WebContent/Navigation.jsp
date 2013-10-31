@@ -178,4 +178,3 @@ function handleNoGeolocation(errorFlag) {
     <div id="map-canvas"></div>
   </body>
 </html>
-

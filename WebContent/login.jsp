@@ -24,9 +24,12 @@
             s = con.createStatement();
             rs = s.executeQuery(sql);
             rs.next();
+            String usertype1 = rs.getString("user_type");
+            
             //out.println(username+" -- "+ password +" -- "+ rs.getString("password"));
             if (password.equals(rs.getString("pass")) ) {
                 session.setAttribute("userid", username);
+                session.setAttribute("user_type", usertype1);
                 response.sendRedirect("home.jsp");
             } else {
                 out.println("Login failed");

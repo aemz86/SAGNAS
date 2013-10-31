@@ -42,8 +42,7 @@ footer {
 	<div id="register" class="modal hide fade container-fluid"
 		tabindex="-1" data-backdrop="static" data-keyboard="false">
 		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal"
-				aria-hidden="true">×</button>
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 			<h3>Registration</h3>
 		</div>
 		<form id="form_reg" name="form_reg" method="post"

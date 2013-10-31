@@ -4,11 +4,10 @@
 <%@ page import="java.util.Vector" %>
 
 <%
-	if (session.isNew() && session.getAttribute("userid") != null) {
+	if (session.getAttribute("userid") == null) {
 		response.sendRedirect("index.jsp");
 	}          
 %>
-
 <!DOCTYPE html>
  <html>
  <head>
@@ -38,89 +37,121 @@
     var map;
 
     function initialize() {
-      directionsDisplay = new google.maps.DirectionsRenderer();
-      var umkc = new google.maps.LatLng(39.033669,-94.576278);
-      var mapOptions = {
-        zoom:13,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        center: umkc
-      }
-      map = new google.maps.Map(document.getElementById('map'), mapOptions);
-      directionsDisplay.setMap(map);
+	      directionsDisplay = new google.maps.DirectionsRenderer();
+	      var umkc = new google.maps.LatLng(39.033669,-94.576278);
+	      var mapOptions = {
+	        zoom:13,
+	        mapTypeId: google.maps.MapTypeId.ROADMAP,
+	        center: umkc
+	      }
+	      map = new google.maps.Map(document.getElementById('map'), mapOptions);
+	      directionsDisplay.setMap(map);
+	      
+	      navigator.geolocation.getCurrentPosition(
+	  			function(position){
+	  				  var start = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+		  		      console.log(position.coords.latitude);
+		  		      var end = document.getElementById('to').value;
+		  		      var request = {
+		  		          origin:start,
+		  		          destination:end,
+		  		          travelMode: google.maps.DirectionsTravelMode.DRIVING
+		  		      };
+	  		      	  directionsService.route(request, function(response, status) {
+		  		        if (status == google.maps.DirectionsStatus.OK) {
+		  		          directionsDisplay.setDirections(response);
+		  		        }
+	  		          });
+	  			 },
+			     function(results, status) {
+			     	console.log(position.coords.latitude + ",err" + position.coords.longitude);
+			        if (status == google.maps.GeocoderStatus.OK)
+			        	$("#" + addressId).val(results[0].formatted_address);
+			       	else
+			        	$("#error").append("Unable to retrieve your address<br />");
+			     },
+			     {
+			     	enableHighAccuracy: true,
+			     	timeout: 10 * 1000 // 10 seconds
+				}
+		);
+	      var markers = [];
+	      var current_marker;
+	      
+	      self.setInterval(function(){
+	    	  navigator.geolocation.getCurrentPosition(
+	  	  			function(position){
+	  	  				var latLng = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+		  	  			if(current_marker != undefined)
+			    			  current_marker.setMap(null);
+			  	  			current_marker = new google.maps.Marker({
+			  		    		 position: latLng,
+			  		    		 map: map,
+			  		    		icon: {
+			  		    		  path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+			  					  scale: 5
+			  		    	    }
+			  		    	});
+			  	  			map.panTo(latLng);
+			  	  		//	markers.push(current_marker);
+			  	  		//	toggle_marker(current_marker);
+	  	  			 },
+	  			     function(results, status) {
+	  			     	console.log(position.coords.latitude + ",err" + position.coords.longitude);
+	  			        if (status == google.maps.GeocoderStatus.OK)
+	  			        	$("#" + addressId).val(results[0].formatted_address);
+	  			       	else
+	  			        	$("#error").append("Unable to retrieve your address<br />");
+	  			     },
+	  			     {
+	  			     	enableHighAccuracy: true,
+	  			     	timeout: 10 * 1000 // 10 seconds
+	  				}
+	  		); 
+	      }, 1000);
     }
-    function getGPSCoordinates(){
-    	console.log("updating co-ordinates");
-    	navigator.geolocation.getCurrentPosition(
-    			calcRoute,
-		        function(results, status) {
-		        	console.log(position.coords.latitude + ",err" + position.coords.longitude);
-		              if (status == google.maps.GeocoderStatus.OK)
-		                $("#" + addressId).val(results[0].formatted_address);
-		              else
-		                $("#error").append("Unable to retrieve your address<br />");
-		        },
-		        {
-		            enableHighAccuracy: true,
-		            timeout: 10 * 1000 // 10 seconds
-		        });
-    }
-    
-    function calcRoute(position) {
-      var start = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-      console.log(position.coords.latitude);
-      var end = document.getElementById('to').value;
-      var request = {
-          origin:start,
-          destination:end,
-          travelMode: google.maps.DirectionsTravelMode.DRIVING
-      };
-      directionsService.route(request, function(response, status) {
-        if (status == google.maps.DirectionsStatus.OK) {
-          directionsDisplay.setDirections(response);
-        }
-      });
-    }
- 
+
       $(document).ready(function() {
         // If the browser supports the Geolocation API
         if (typeof navigator.geolocation == "undefined") {
           $("#error").text("Your browser doesn't support the Geolocation API");
           return;
         }
- 
-        $("#from-link, #to-link").click(function(event) {
-          event.preventDefault();
-          var addressId = this.id.substring(0, this.id.indexOf("-"));
- 
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var geocoder = new google.maps.Geocoder();
-            geocoder.geocode({
-              "location": new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
-            },
-            function(results, status) {
-            	console.log(position.coords.latitude + "," + position.coords.longitude);
-              if (status == google.maps.GeocoderStatus.OK)
-                $("#" + addressId).val(results[0].formatted_address);
-              else
-                $("#error").append("Unable to retrieve your address<br />");
-            });
-          },
-          function(positionError){
-            $("#error").append("Error: " + positionError.message + "<br />");
-          },
-          {
-            enableHighAccuracy: true,
-            timeout: 10 * 1000 // 10 seconds
-          });
-        });
- 
-        $("#calculate-route").submit(function(event) {
-          event.preventDefault();
-         // calculateRoute($("#from").val(), $("#to").val());
-          initialize();
-          self.setInterval(function(){getGPSCoordinates();}, 3000);
-        });
-      });
+	 
+	        $("#from-link, #to-link").click(function(event) {
+	          event.preventDefault();
+	          var addressId = this.id.substring(0, this.id.indexOf("-"));
+	 
+	          navigator.geolocation.getCurrentPosition(function(position) {
+	            var geocoder = new google.maps.Geocoder();
+	            geocoder.geocode({
+	              "location": new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+	            },
+	            function(results, status) {
+	            	console.log(position.coords.latitude + "," + position.coords.longitude);
+	              if (status == google.maps.GeocoderStatus.OK)
+	                $("#" + addressId).val(results[0].formatted_address);
+	              else
+	                $("#error").append("Unable to retrieve your address<br />");
+	            });
+	          },
+	          function(positionError){
+	            $("#error").append("Error: " + positionError.message + "<br />");
+	          },
+	          {
+	            enableHighAccuracy: true,
+	            timeout: 10 * 1000 // 10 seconds
+	          });
+	        });
+	 
+	        
+	        $("#calculate-route").submit(function(event) {
+	          event.preventDefault();
+	         // calculateRoute($("#from").val(), $("#to").val());
+	          initialize();
+	        //  self.setInterval(function(){getGPSCoordinates();}, 5000);
+	        });
+	 });
     </script>
     <style type="text/css">
       #map {
@@ -140,7 +171,6 @@
 	    <a class="close" data-dismiss="modal">×</a>
 	    <h3>Modal header</h3>
 	  </div>
-	  
 	  <form id="calculate-route" name="calculate-route" action="#" method="get">
 	  	<div class="modal-body">
 	      <label for="from">From:</label>
@@ -208,5 +238,4 @@
     });
  </script>
 </body>
-
- </html>
+</html>

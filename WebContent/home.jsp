@@ -4,9 +4,9 @@
 <%@ page import="java.util.Vector" %>
 
 <%
-if (session.isNew() && session.getAttribute("userid") != null) {
+if (session.getAttribute("userid") == null) {
 	response.sendRedirect("index.jsp");
-}          
+}
 %>
 
 <!DOCTYPE html>
@@ -50,9 +50,13 @@ if (session.isNew() && session.getAttribute("userid") != null) {
  	<!-- Container Section Starts -->
  	<section>
 	 	<div class="container-fluid">
+	 	<% if("cop".equals(session.getAttribute("user_type"))){
+	 	%>
 		    <div class="row-fluid">
 		        <a class="span10 btn pull-left" href="" role="button">Request Assistance</a>
 		    </div>
+		   <%}
+	 	%>
 		    <div class="row-fluid">
 		        <a class="span10 btn pull-right" href="gps_nav.jsp" role="button">GPS Navigation</a>
 		    </div>

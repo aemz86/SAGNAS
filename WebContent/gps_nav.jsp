@@ -151,6 +151,12 @@
 	          initialize();
 	        //  self.setInterval(function(){getGPSCoordinates();}, 5000);
 	        });
+	        
+	        
+	        $.getJSON("input.js", function(){ 
+	        	console.log("success");
+	        	alert("works great");
+	        });
 	 });
     </script>
     <style type="text/css">

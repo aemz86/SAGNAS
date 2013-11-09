@@ -11,8 +11,6 @@
 		<title>test</title>
 	</head>
 	<body>
-
-
 <%
 	String fname = request.getParameter("fname");
 	String lname = request.getParameter("lname");

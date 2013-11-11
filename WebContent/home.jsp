@@ -31,6 +31,54 @@ if (session.getAttribute("userid") == null) {
  </head>
  
  <body>
+ 	<!-- Modal Dialogs Starts -->
+	<div id="group_options" class="modal hide fade container-fluid"
+		tabindex="-1" data-backdrop="static" data-keyboard="false">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3>Choose an Option</h3>
+		</div>
+		<div class="modal-body">
+			<div class="accordion" id="multi-user-coordination">
+			  <div class="accordion-group">
+			    <div class="accordion-heading">
+			      <a class="accordion-toggle" data-toggle="collapse" data-parent="#multi-user-coordination" href="#createGroup">
+			        Create a group
+			      </a>
+			    </div>
+			    <div id="createGroup" class="accordion-body collapse in">
+			      <div class="accordion-inner">
+			      	<form action="gps_nav.jsp">
+			      		<input type="hidden" value="0000" name="multi_user">
+			      		<button type="submit" class="btn btn-primary">Confirm</button>
+			      	</form>
+			      </div>
+			    </div>
+			  </div>
+<!-- Join a group -->			  
+			  <div class="accordion-group">
+			    <div class="accordion-heading">
+			      <a class="accordion-toggle" data-toggle="collapse" data-parent="#multi-user-coordination" href="#joinGroup">
+			        Join Existing Group
+			      </a>
+			    </div>
+			    <div id="joinGroup" class="accordion-body collapse in">
+			      <div class="accordion-inner">
+			        <form action="gps_nav.jsp">
+			      		<input type="text" name="multi_user">
+			      		<button type="submit" class="btn btn-primary">Confirm</button>
+			      	</form>
+			      </div>
+			    </div>
+			  </div>
+<!-- End of Join a group -->
+			</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal for registration ends -->
+ 
+ 
  	<!-- Page Header Starts -->
  	<header>
  		<div class="hero-unit">
@@ -50,18 +98,14 @@ if (session.getAttribute("userid") == null) {
  	<!-- Container Section Starts -->
  	<section>
 	 	<div class="container-fluid">
-	 	<% if("cop".equals(session.getAttribute("user_type"))){
-	 	%>
 		    <div class="row-fluid">
 		        <a class="span10 btn pull-left" href="" role="button">Request Assistance</a>
 		    </div>
-		   <%}
-	 	%>
 		    <div class="row-fluid">
 		        <a class="span10 btn pull-right" href="gps_nav.jsp" role="button">GPS Navigation</a>
 		    </div>
 		    <div class="row-fluid">
-		        <a class="span10 btn pull-left" href="#admin" role="button">Friendly GPS</a>
+		        <a class="span10 btn pull-left" href="#group_options" role="button" data-toggle="modal">Friendly GPS</a>
 		    </div>
 		    <div class="row-fluid">
 		        <a class="span10 btn pull-right" href="#admin" role="button">Statistics</a>
@@ -87,5 +131,38 @@ if (session.getAttribute("userid") == null) {
     <!-- Placed at the end of the document so the pages load faster -->    
     <script src="js/jquery-2.0.2.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+	    $('#multi-user-coordination').collapse({
+	    	  toggle: true
+	    	});
+	
+	    var navID = "0000";
+		function addToMarkersList(user, lat, lng) {
+			
+		}
+		function parseJSON(data) {
+			var keyRetrieved = false;
+			$.each(data, function(key, value){
+				if(!keyRetrieved){
+					navID = key;
+					console.log(value.length);
+					keyRetrieved = true;
+				} else{
+					console.log("key = " + key + "value:: "  + value.length);
+					addToMarkersList(value[0], value[1], value[2]);					
+				}
+			});
+		}
+	    $( "#createGroupID" ).click(function() {
+	    	self.setInterval(function(){
+			  	$.getJSON("http://localhost:8080/FirstRestWebService/rest/json/metallica/"+ navID +"/ " + <%=session.getAttribute("userid") %> + "/3/4/",  function(data) {
+			  	parseJSON(data);
+			  	
+			});
+			  	console.log("calling::: " + navID);
+		  	}, 6000);
+		  	
+	    });
+    </script>
  </body>
  </html>

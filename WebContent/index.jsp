@@ -136,7 +136,7 @@ footer {
 						</p>
 					</div>
 					<div class="span6">
-						<h4>Not regestered yet</h4>
+						<h4>Not registered yet</h4>
 						<a href="#register" class="text-center" data-toggle="modal"
 							data-dismiss="modal">Click here to Register</a>
 					</div>

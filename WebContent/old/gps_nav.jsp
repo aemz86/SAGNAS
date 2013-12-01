@@ -184,13 +184,17 @@
 	  <form id="calculate-route" name="calculate-route" action="#" method="get">
 	  	<div class="modal-body">
 	      <label for="from">From:</label>
+	      
 	      <input type="text" id="from" name="from" required="required" placeholder="An address" size="30" />
 	      <a id="from-link" href="#">Get my position</a>
+	      
 	      <br />
 	 
 	      <label for="to">To:</label>
+	      
 	      <input type="text" id="to" name="to" required="required" placeholder="Another address" size="30" />
 	      <a id="to-link" href="#">Get my position</a>
+	      
 	      <br />
 	 
 	      <input type="reset" class="btn-primary"/>

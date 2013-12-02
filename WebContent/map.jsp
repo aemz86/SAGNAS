@@ -231,6 +231,9 @@
 						<button class="btn btn-primary pull-right" id="update-map">Update</button>
 						<div class="clearfix"></div>
 					</li>
+					<li></li>
+					<li></li>
+					<li></li>
 				</ul>
 			</article>
 		</div>

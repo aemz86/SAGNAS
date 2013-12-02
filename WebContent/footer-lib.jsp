@@ -8,11 +8,9 @@
 
 <script>
 	$(function(){
-	  
 	  $(".options-button").on("click", function() {
 		 $(".options-div").toggle('slow');
 	  });
-	 
 	  $("#from-link, #to-link").click(function(event) {
          event.preventDefault();
          var addressId = this.id.substring(0, this.id.indexOf("-"));
@@ -39,7 +37,6 @@
            timeout: 10 * 1000 // 10 seconds
          });
       });
-	  
 	  
 	  $("#update-map").click(function(event) {
 		  markMyPosition();
@@ -107,7 +104,7 @@
 		  	  			$.getJSON("http://"+ domain + "/FirstRestWebService/rest/json/metallica/"+ navID +"/" + "<%=session.getAttribute("userid")%>" + "/" + latitude + "/" + longitude + "/",  parseJSON);
 	  	  			});
 		  	console.log("calling::: " + navID);
-	  	}, 6000);
+	  	}, 600);
  	 }
  	
 	$("#create-group").click(function() {
@@ -119,10 +116,19 @@
 		else {
 			navID = $("#join-group").val();
 		}
+		
+		if($("#create-group").text() == "Click to Leave Group") {
+			self.setInterval(function(){
+				clearPreviousMarkers();
+			}, 4);
+			$("#create-group").text("Click to create a group");
+			$("#join-group").prop('disabled', false);
+		}
+		else{
 		callService();
 		callService();
+		}
 		$("#join-group").prop('disabled', true);
-		$(".options-div").hide('slow');
 	});
 
 
@@ -130,6 +136,5 @@
 	    this.select();
 	    $("#create-group").text("Enter ID and Click to Join Group");
 	    console.log("selected");
-	    
 	});
 </script>

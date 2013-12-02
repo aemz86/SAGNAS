@@ -107,7 +107,7 @@ body {
 	border-radius: 5px 5px 0 0;
 
 }
-#map {
+#map, #piechart {
 	width: 100%;
 	height: 450px;
 	margin-top: 10px;

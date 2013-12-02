@@ -135,20 +135,27 @@
 		<div class="row jumbotron">
 			<!-- Map is inserted here -->
 			<div id="map"><%=map_type%></div>
-
 		</div>
 
 		<div class="options-div" id="options">
 			<article>
 				<ul class="cards">
+					
+					<li>
+						
+					</li>
+					<li>
+						<div class="input-group">
+							<input type="text" class="form-control" id="join-group" placeholder="Enter ID to join a goup">
+							<span class="input-group-addon" id="create-group">Click to create a Group</span>
+						</div>
+					</li>
 					<li>
 						<div class="text-center">Directions</div>
 					</li>
 					<li>
 						<div class="input-group">
-							<input type="text" class="form-control" id="from"
-								placeholder="From"> <span class="input-group-addon"
-								id="from-link">C</span>
+							<input type="text" class="form-control" id="from" placeholder="From"> <span class="input-group-addon" id="from-link">C</span>
 						</div> <br />
 						<div class="input-group">
 							<input type="text" class="form-control" id="to" placeholder="To">
@@ -158,7 +165,6 @@
 					<li></li>
 					<li>
 						<div class="text-center">Markers</div>
-
 					</li>
 					<li>
 						<div class="container">
@@ -215,7 +221,6 @@
 										</div>
 										<!-- /input-group -->
 									</fieldset>
-
 								</form>
 							</div>
 						</div>
@@ -230,14 +235,10 @@
 
 		</div>
 	</div>
-
-
 	<div class="settings-toggle">set</div>
 	<div class="options-button">
 		<span class="text-center"></span>
 	</div>
-
-
 	<jsp:include page="footer-lib.jsp" />
 </body>
 </html>

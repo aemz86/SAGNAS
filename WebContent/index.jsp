@@ -93,13 +93,13 @@ if (session.getAttribute("userid") != null) {
 				</div>
 				<div id="collapseTwo" class="panel-collapse collapse">
 					<div class="panel-body">
-						<form class="form-signin">
+						<form class="form-signin" action="register.jsp">
 					        <h2 class="form-signin-heading"></h2>
-					        <input type="text" class="form-control" placeholder="First Name" required autofocus>
-					        <input type="text" class="form-control" placeholder="Name" required>
-					        <input type="email" class="form-control" placeholder="Email address" required>
-					        <input type="text" class="form-control" placeholder="Username" required>
-					        <input type="password" class="form-control" placeholder="Password" required>
+					        <input type="text" class="form-control" placeholder="First Name" name="fname" required autofocus>
+					        <input type="text" class="form-control" placeholder="Last Name" name="lname"  required>
+					        <input type="email" class="form-control" placeholder="Email address" name="email" required>
+					        <input type="text" class="form-control" placeholder="Username" name="uname" required>
+					        <input type="password" class="form-control" placeholder="Password" name="passwd" required>
 					        <input type="password" class="form-control" placeholder="Confirm Password" required>
 					        <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
 					      </form>

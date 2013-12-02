@@ -35,7 +35,7 @@ if (session.getAttribute("userid") == null) {
             <div class="col-6 col-sm-6 col-lg-4">
               <h2>Statistics</h2>
               <p class="text-justify">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn btn-default" href="statistics.jsp" role="button">View Stats &raquo;</a></p>
+              <p><a class="btn btn-default" href="stats.jsp" role="button">View Stats &raquo;</a></p>
             </div><!--/span-->
             <div class="col-6 col-sm-6 col-lg-4">
               <h2>About SAGNAS</h2>

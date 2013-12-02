@@ -17,7 +17,8 @@
 
 	try{
 	    Class.forName("com.mysql.jdbc.Driver");
-	    con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mcc_sagnas", "root", "root");
+	    con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mcc_sagnas",
+	            "root", "root");
 	    String sql = "select * from user_list where uname='" + username + "'";
 
             s = con.createStatement();
@@ -28,9 +29,8 @@
             //out.println(username+" -- "+ password +" -- "+ rs.getString("password"));
             if (password.equals(rs.getString("pass")) ) {
                 session.setAttribute("userid", username);
-                session.setAttribute("user_type", usertype);
+                session.setAttribute("user_type", usertype1);
                 response.sendRedirect("home.jsp");
-                return;
             } else {
                 out.println("Login failed");
                 session.invalidate();
@@ -38,7 +38,9 @@
 
         } catch (Exception e) {
             out.println("<script> window.alert('Login Failed. . Try again')</script>");
-            response.sendRedirect("index.jsp");            
+            response.sendRedirect("index.jsp");
+             
+            
             e.printStackTrace();
         } finally {
             if (rs != null) {

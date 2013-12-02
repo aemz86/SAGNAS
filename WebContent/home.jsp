@@ -24,18 +24,13 @@ if (session.getAttribute("userid") == null) {
 	<div class="row jumbotron">
             <div class="col-6 col-sm-6 col-lg-4">
               <h2>GPS Navigation</h2>
-<<<<<<< HEAD
               <p class="text-justify"> This service allows users to display and get their current location on a map. In addition, the user can get live GPS directions from point to point. Another feature of this service is that users have the ability to locate the nearest police department within a desired raduis. </p>
-              <p><a class="btn btn-default" href="map.jsp?type='basic-gps'" role="button">Try Now &raquo;</a></p>
-=======
-              <p class="text-justify">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
               <p><a class="btn btn-default" href="map.jsp?type=basic-gps" role="button">Try Now &raquo;</a></p>
->>>>>>> ui-version-update
             </div><!--/span-->
             <div class="col-6 col-sm-6 col-lg-4">
               <h2>Group Navigation</h2>
               <p class="text-justify"> Any user can initiate a group navigation session where other users can also join if they know its Nav_ID. After creating or joining the session, map will displayed showing the current location of all users in that group. Locations get updated continuously. The group navigation session ends when the last user leaves the group. </p>
-              <p><a class="btn btn-default" href="map.jsp?type='multi-user-gps'" role="button">Try Now &raquo;</a></p>
+              <p><a class="btn btn-default" href="map.jsp?type=multi-user-gps" role="button">Try Now &raquo;</a></p>
             </div><!--/span-->
             <div class="col-6 col-sm-6 col-lg-4">
               <h2>Statistics</h2>

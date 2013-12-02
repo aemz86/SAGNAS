@@ -140,7 +140,7 @@
 		<div class="options-div" id="options">
 			<article>
 				<ul class="cards">
-					
+				<% if(!(request.getParameter("type").equalsIgnoreCase("basic-gps"))) { %>
 					<li>
 						
 					</li>
@@ -150,6 +150,7 @@
 							<span class="input-group-addon" id="create-group">Click to create a Group</span>
 						</div>
 					</li>
+				<% } else {%>
 					<li>
 						<div class="text-center">Directions</div>
 					</li>
@@ -162,6 +163,7 @@
 							<span class="input-group-addon" id="to-link">C</span>
 						</div>
 					</li>
+					<% } %>
 					<li></li>
 					<li>
 						<div class="text-center">Markers</div>
@@ -171,16 +173,15 @@
 							<div class="row">
 								<form class="form">
 									<fieldset>
-										<legend>Locate</legend>
+										<legend>Locate Nearest Police Stations</legend>
 										<div class="input-group">
 											<input type="number" class="form-control"
 												placeholder="Police Station" value="0" id="radius">
-
 											<div class="input-group-btn">
 												<button type="button"
 													class="btn btn-default dropdown-toggle"
 													data-toggle="dropdown">
-													Miles<span class="caret"></span>
+													Meters<span class="caret"></span>
 												</button>
 												<!-- <ul class="dropdown-menu">
 							          <li><a href="#">Miles</a></li>
@@ -201,7 +202,7 @@
 							<div class="row">
 								<form class="form">
 									<fieldset>
-										<legend>Retrieve</legend>
+										<legend>Retrieve Crime Information</legend>
 										<div class="input-group">
 											<input type="number" class="form-control"
 												placeholder="Crime Information">
@@ -209,7 +210,7 @@
 												<button type="button"
 													class="btn btn-default dropdown-toggle"
 													data-toggle="dropdown">
-													Miles<span class="caret"></span>
+													Meters<span class="caret"></span>
 												</button>
 												<!-- <ul class="dropdown-menu">
 							          <li><a href="#">Miles</a></li>
@@ -232,7 +233,6 @@
 					</li>
 				</ul>
 			</article>
-
 		</div>
 	</div>
 	<div class="settings-toggle">set</div>

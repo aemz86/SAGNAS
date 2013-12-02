@@ -23,20 +23,29 @@ Approaches and Features
 =======================
 
 •	Provides a simple interface that can adapt to any display size (laptops, PCs, mobiles, etc.)
+
 •	Provides the user an easy way to register as a victim, a cop, or an admin. Each type will have access to a different functionality.
+
 •	All log in data are stored in MySQL database.
+
 •	Sign-in: lets users access the application features, keeping any relevant data stored and associated with their corresponding registration information.
+
 •	Any user has the ability to initiate a Group Navigation service in which other users can join. When the service starts, a map will be displayed showing the current location of each user joined the group. Locations get updated continuously.
+
 •	Other users can join a specific group by knowing its Navigation Group ID.
+
 •	The group navigation session ends automatically when the last user leaves the group.
 
 
 About friendly GPS navigation service:
 ======================================
 
-•	Display a big map with some options and features to choose. 
+•	Display a big map with some options and features to choose.
+
 •	Allow users to get their current location.
+
 •	Allow users to get live directions from point to point.
+
 •	Allow users to locate the nearest police stations within a desired radius.
 
 
@@ -44,6 +53,7 @@ About Statistic service
 =======================
 
 •	Ask the user to enter the desired zip code in order to show crime data.
+
 •	Display crime data in a chart that contains the crime types and their numbers.
 
 
@@ -51,17 +61,29 @@ Implementation
 ==============
 
 •	HBase
+
 •	JAQL
+
 •	Hadoop
+
 •	Apache Tomcat 7
+
 •	JDK 7
+
 •	Restful JAX-RS
+
 •	MySQL
+
 •	Google Maps API
+
 •	Bootstramp
+
 •	JQuary
+
 •	Json
+
 •	HTML 5
+
 •	SCC 3
 
 

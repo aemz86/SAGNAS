@@ -1,3 +1,4 @@
+<%@page import="java.util.HashMap"%>
 <%@page import="java.util.Iterator"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -6,7 +7,15 @@
 <%
 	if (session.getAttribute("userid") == null) {
 		response.sendRedirect("index.jsp");
-	}          
+	}
+	boolean multiGPS = true;
+	boolean multiGPS_join;
+	try {
+		multiGPS_join = (request.getParameter("multi_user").equals("aaaa")) ? true : false ;
+	} catch(Exception e) {
+		multiGPS = false;
+		multiGPS_join = false;
+	}
 %>
 <!DOCTYPE html>
  <html>
@@ -75,40 +84,39 @@
 			     	timeout: 10 * 1000 // 10 seconds
 				}
 		);
-	      var markers = [];
-	      var current_marker;
+	    var current_marker;
 	      
-	      self.setInterval(function(){
-	    	  navigator.geolocation.getCurrentPosition(
-	  	  			function(position){
-	  	  				var latLng = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-		  	  			if(current_marker != undefined)
-			    			  current_marker.setMap(null);
-			  	  			current_marker = new google.maps.Marker({
-			  		    		 position: latLng,
-			  		    		 map: map,
-			  		    		icon: {
-			  		    		  path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-			  					  scale: 5
-			  		    	    }
-			  		    	});
-			  	  			map.panTo(latLng);
-			  	  		//	markers.push(current_marker);
-			  	  		//	toggle_marker(current_marker);
-	  	  			 },
-	  			     function(results, status) {
-	  			     	console.log(position.coords.latitude + ",err" + position.coords.longitude);
-	  			        if (status == google.maps.GeocoderStatus.OK)
-	  			        	$("#" + addressId).val(results[0].formatted_address);
-	  			       	else
-	  			        	$("#error").append("Unable to retrieve your address<br />");
-	  			     },
-	  			     {
-	  			     	enableHighAccuracy: true,
-	  			     	timeout: 10 * 1000 // 10 seconds
-	  				}
-	  		); 
-	      }, 1000);
+      self.setInterval(function(){
+    	  navigator.geolocation.getCurrentPosition(
+  	  			function(position){
+  	  				var latLng = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+	  	  			if(current_marker != undefined)
+		    			  current_marker.setMap(null);
+		  	  			current_marker = new google.maps.Marker({
+		  		    		 position: latLng,
+		  		    		 map: map,
+		  		    		icon: {
+		  		    		  path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+		  					  scale: 5
+		  		    	    }
+		  		    	});
+		  	  		//	map.panTo(latLng);
+		  	  		//	markers.push(current_marker);
+		  	  		//	toggle_marker(current_marker);
+  	  			 },
+  			     function(results, status) {
+  			     	console.log(position.coords.latitude + ",err" + position.coords.longitude);
+  			        if (status == google.maps.GeocoderStatus.OK)
+  			        	$("#" + addressId).val(results[0].formatted_address);
+  			       	else
+  			        	$("#error").append("Unable to retrieve your address<br />");
+  			     },
+  			     {
+  			     	enableHighAccuracy: true,
+  			     	timeout: 10 * 1000 // 10 seconds
+  				}
+  		); 
+      }, 1000);
     }
 
       $(document).ready(function() {
@@ -143,8 +151,7 @@
 	            timeout: 10 * 1000 // 10 seconds
 	          });
 	        });
-	 
-	        
+	 	        
 	        $("#calculate-route").submit(function(event) {
 	          event.preventDefault();
 	         // calculateRoute($("#from").val(), $("#to").val());
@@ -164,6 +171,9 @@
  </head>
  
  <body>
+ 
+ 
+ 
  <!-- Modal content to choose destination -->
  	<!-- Start -->
  	<div class="modal hide fade" id="destination">
@@ -174,13 +184,17 @@
 	  <form id="calculate-route" name="calculate-route" action="#" method="get">
 	  	<div class="modal-body">
 	      <label for="from">From:</label>
+	      
 	      <input type="text" id="from" name="from" required="required" placeholder="An address" size="30" />
 	      <a id="from-link" href="#">Get my position</a>
+	      
 	      <br />
 	 
 	      <label for="to">To:</label>
+	      
 	      <input type="text" id="to" name="to" required="required" placeholder="Another address" size="30" />
 	      <a id="to-link" href="#">Get my position</a>
+	      
 	      <br />
 	 
 	      <input type="reset" class="btn-primary"/>
@@ -229,8 +243,73 @@
     <script src="js/jquery-2.0.2.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
  <script type="text/javascript">
+ 	var gps_show = "show";
+ 	var multi_gps_show = "hide";
+ 	<% if(multiGPS) {%>
+ 		gps_show = "hide";
+ 		multi_gps_show = "show";
+ 		console.log("inside if");
+ 	<% } else {%>
+		console.log("inside else");
+ 	<% } %>
+
+ 	var markers = [];
+ 	var navID = "aaaa";
+ 	var latitude;
+ 	var longitude;
+  	<%if(!multiGPS_join){%>
+ 		navID = "<%=request.getParameter("multi_user")%>";
+	<%}%>
+ 	
+ 	function addToMarkersList(user, lat, lng) {
+		var marker = new google.maps.Marker({
+			position:	 new google.maps.LatLng(lat, lng),
+			map:	map,
+			title: user
+			});
+		markers.push(marker);
+	}
+	
+	function parseJSON(data) {
+		var keyRetrieved = false;
+		$.each(data, function(key, value){
+			if(!keyRetrieved){
+				navID = key;
+				console.log(value.length);
+				keyRetrieved = true;
+			} else{
+				console.log("key = " + key + "value:: "  + value.length);
+				// Generating markers to plot and storing them to an array
+				addToMarkersList(value[0], value[1], value[2]);
+			}
+		});
+	}
+
+	function clearPreviousMarkers() {
+		for (var i = 0; i < markers.length; i++) {
+		    markers[i].setMap(null);
+		  }
+		 markers = [];
+	}
+	
+ 	function callService(){
+ 		self.setInterval(function(){
+ 			navigator.geolocation.getCurrentPosition(
+	  	  			function(position){
+	  	  				latitude = position.coords.latitude;
+	  	  				longitude = position.coords.longitude;
+	  	  				clearPreviousMarkers();
+		  	  			$.getJSON("http://localhost:8080/FirstRestWebService/rest/json/metallica/"+ navID +"/" + "<%=session.getAttribute("userid")%>" + "/" + latitude + "/" + longitude + "/",  parseJSON);
+	  	  			});
+		  	console.log("calling::: " + navID);
+	  	}, 6000);
+ 	 }
+ 	
     $(window).load(function(){
-        $('#destination').modal('show');
+        console.log(gps_show);
+        $('#destination').modal(gps_show);
+        initialize();
+        callService();
     });
     $("#display_map").click(function(event){
     	$(this).submit();

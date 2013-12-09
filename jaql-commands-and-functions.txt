@@ -1,0 +1,97 @@
+Here are a list of relevant commands and functions to utilize JAQL, sort JSON, and store into HBase
+
+//enter jaql shell
+jaqlshell
+
+
+//read the local file into hdfs, then create jaql json object
+//
+
+read(file("testfile.txt")) -> write(hdfs("kc-crime"));    
+$kcJson = read(hdfs("kc-crime"));
+
+// returns total json objects in json array
+count($kcJson);	
+
+
+//then declare your function
+// reformats all objects
+$reformat = 
+	fn($input) (
+	$input
+	-> transform { 
+
+			info:
+			{
+				id: $.report_no ,
+				zipcode: $.zipcode,
+				crime: $.crime,
+				date: substring($.reported_date, 0, 10),
+				time: $.reported_time,
+				address: $.address,
+			},
+			geolocation:
+			{
+				latitude: $.coordinates.latitude,
+				longitude: $.coordinates.longitude,
+			}
+		  }
+);
+
+
+// after function is declared, create new json object using filter and transform functions: 
+$newKcJson = $kcJson -> $reformat();
+
+// remove duplicate address entries
+$uniqueKcJson = distinct($newKcJson);
+
+//		save created json object to local
+$uniqueKcJson -> write(jsonTextFile(location='kc.json'));
+	
+
+//		save created json to hdfs
+$uniqueKcJson -> write(jsonText('uniqueData.json'));
+
+
+
+
+// read from local file
+$kcJson = read(jsonTextFile(location='4-51-test.json'));
+
+// read from hdfs file
+$kcJson -> write(jsonText('updated.json'));
+
+// import the hbase module to connect jaql to hbase
+import hbase(*);
+
+// create variable referencing 'test' table in hbase, specifying schema. The * is a wildcard, adding all entries since all are string
+T = hbaseString('test', schema { key:string, info?: {*:string}, geolocation?: {*:string} }, replace=true);
+
+// write your file into hbase table, should match up schema wise
+$kcJson -> write(T);
+
+
+//
+quit;
+
+
+
+
+
+
+//distinct( $unique ) -> sort by [$.id];
+
+// Reformats json object list based off zipcode
+$zipSearch = 
+	fn($input, $zip) (
+	$input
+	-> filter $.zipcode == $zip
+	-> transform { zipcode: $.zipcode,
+			latitude: $.coordinates.latitude,
+			longitude: $.coordinates.longitude,
+			crime: $.crime,
+			date: substring($.reported_date, 0, 10),	// modifies the date string, removing unnecessary characters
+			time: $.reported_time,
+			address: $.address,
+		  }
+);

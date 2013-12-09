@@ -76,7 +76,7 @@ Implementation
 
 •	Google Maps API
 
-•	Bootstramp
+•	Bootstrap
 
 •	JQuary
 
@@ -84,7 +84,7 @@ Implementation
 
 •	HTML 5
 
-•	SCC 3
+•	CSS 3
 
 
 HBase Schema

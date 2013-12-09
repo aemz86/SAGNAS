@@ -32,7 +32,8 @@
 	        response.sendRedirect("index.jsp");
 	    }
     } catch(Exception e){
-    	e.printStackTrace();	
+    	e.printStackTrace();
+    	response.sendRedirect("index.jsp");
     }
 %>
 </body>

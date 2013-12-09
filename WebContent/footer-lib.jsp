@@ -38,13 +38,13 @@
          });
       });
 	  
-	  $("#update-map").click(function(event) {
+	  $("#update-map").click(function(event) {		  
 		  markMyPosition();
 		  if($("#from").val() != "" && $("to").val != "")
 		  		calcRoute();
-		  console.log("Radius value" + $("#radius").val());
-		  
+		  console.log("Radius value" + $("#radius").val());		  
 		  markPolice($("#radius").val());
+
 		  $(".options-div").hide('slow');
 	  });
 	});
